@@ -1,4 +1,4 @@
-const { saltHashPassword } = require('../store');
+const { saltHashPassword } = require('../auth/auth');
 
 exports.up = async function up(knex) {
   await knex.schema
