@@ -14,33 +14,32 @@ export const createUser = (req: Request, res: Response) => {
       username: req.body.username,
       phone_number: req.body.phone_number
       // TODO - Fix any type
+    }).then((user: any) => {
+      console.log("CreateUser", user);
+      const token = auth.generateAuthToken(user);
+      res.status(201).send(token)
     })
-    //   .then((user: any) => {
-    //   console.log("CreateUser", user);
-    //   const token = auth.generateAuthToken(user);
-    //   res.status(201).send(token)
-    // })
   } catch(err) {
       console.log("ERROR", err)
   }
 };
 
-// export const login = (req: Request, res: Response) => {
-//   auth
-//     .login({
-//       email: req.body.email,
-//       password: req.body.password
-//     })
-//     .then((user: {}) => {
-//       if(!user) {
-//         res.sendStatus(401)
-//         return;
-//       }
-//       // const token = user.token;
-//       res.status(200)
-//         // .send(token);
-//     })
-// };
+export const login = (req: Request, res: Response) => {
+  auth
+    .login({
+      email: req.body.email,
+      password: req.body.password
+    })
+    .then((user: {}) => {
+      if(!user) {
+        res.sendStatus(401)
+        return;
+      }
+      // const token = user.token;
+      res.status(200)
+        // .send(token);
+    })
+};
 
 export const getUser = (req: Request, res: Response) => {
   console.log("USERS", req.body);
