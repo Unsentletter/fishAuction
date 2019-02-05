@@ -1,7 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
+import { authenticate } from "./middleware/authenticate";
 import * as userController from './controllers/user';
+import * as itemController from './controllers/items';
 
 const app = express();
 
@@ -14,7 +16,10 @@ app.use(function(req, res, next) {
 });
 
 app.post('/createUser', userController.createUser);
-// app.post('/login', userController.login);
-app.get('/users/me', userController.getUser);
+app.post('/login', userController.login);
+app.get('/users/me', authenticate, userController.getUser);
+
+app.post('/post-item', authenticate, itemController.postItem);
+app.get('/get-items', itemController.getItems);
 
 export default app;
