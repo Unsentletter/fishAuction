@@ -1,6 +1,7 @@
 import { db } from '../knexfile';
 import crypto = require('crypto');
 import jwt = require('jsonwebtoken');
+import {log} from "util";
 
 // TODO - update any type
 export const createUser = ({ email, password, username, phone_number }: { email: string, password: string, username:string, phone_number:string }): any => {
@@ -25,15 +26,18 @@ export const login = ({ email, password }: { email: string, password: string }) 
       if(!data) {
         throw Error("No user data");
       }
-      const hash = saltHashPassword(
+      const hashObject = saltHashPassword(
         password,
         data[0].salt
       );
 
-      if (hash !== data[0].encrypted_password)  {
+      if (hashObject.hash !== data[0].encrypted_password)  {
+        console.log("HIT")
         return
       }
       data[0].token = generateAuthToken(data[0]);
+
+      console.log("DATA", data);
       return data[0]
     });
 };
@@ -49,7 +53,8 @@ const saltHashPassword = (password: string, salt?: string) => {
   console.log(password, salt);
   salt = salt ? salt : randomString();
   const hash = crypto.createHmac('sha512', salt).update(password);
-  return {salt, hash: hash.digest('hex')}
+  const hashDigest = hash.digest('hex')
+  return {salt, hash: hashDigest}
 };
 
 const  randomString = () => {

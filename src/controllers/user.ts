@@ -30,14 +30,15 @@ export const login = (req: Request, res: Response) => {
       email: req.body.email,
       password: req.body.password
     })
-    .then((user: {}) => {
+    .then((user: any) => {
       if(!user) {
         res.sendStatus(401)
         return;
       }
-      // const token = user.token;
+      console.log(user.token)
+      const token = user.token;
       res.status(200)
-        // .send(token);
+        .send(token);
     })
 };
 

@@ -3,7 +3,6 @@ import {Request, Response} from "express";
 import * as items from '../auth/items';
 import {db} from "../knexfile";
 
-
 export const postItem = (req: Request, res: Response) => {
   console.log("POST ITEM", req.body);
   console.log("POST ITEM", req.body.user.user[0].id);
@@ -25,17 +24,16 @@ export const postItem = (req: Request, res: Response) => {
       console.log("ITEM", item);
       res.status(200)
     })
-  } catch(err) {
-    // TODO - Fix error message to something more appropriate
-    console.log("This is the error message", err);
-    throw new Error("Something went wrong");
+  } catch(error) {
+    throw new Error(`Something went wrong: ${error}`);
   }
 };
 
 export const getItems = async (req: Request, res: Response) => {
   try {
     const items: any = await db.select().from('item_for_sale');
-    res.send(items[0])
+    console.log(items);
+    res.send(items)
   } catch(error) {
     return res.status(400).send(error)
   }
