@@ -5,7 +5,6 @@ import {Request, Response, NextFunction} from "express";
 // TODO - Redo any type
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const token: any = req.headers['token'];
-  console.log("Auth middleware", token);
 
   if(!token) {
     console.log("No token");
@@ -16,8 +15,8 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
 
   try {
     const decoded: any = await jwt.verify(token, 'abc123');
-    console.log(1111111111, decoded.id);
-    const user = await db('user').where({id: decoded.id});
+    console.log(1111111111, decoded.id.id);
+    const user = await db('user').where({id: decoded.id.id});
 
     req.body.user = { user };
     next();
