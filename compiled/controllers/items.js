@@ -46,22 +46,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var items = __importStar(require("../auth/items"));
 var knexfile_1 = require("../knexfile");
 exports.postItem = function (req, res) {
-    console.log("POST ITEM", req.body);
-    console.log("POST ITEM", req.body.user.user[0].id);
     // if (!req.body.itemName || !req.body.price || !req.body.description) {
     //   return res.status(400).send({ 'message': 'Some values are missing' });
     // }
     // console.log(req.body);
+    var _a = req.body, itemName = _a.itemName, price = _a.price, description = _a.description, user = _a.user, location = _a.location, species = _a.species;
     try {
-        items.postItem({
-            itemName: req.body.itemName,
-            price: req.body.price,
-            description: req.body.description,
-            userId: req.body.user.user[0].id
-        }).then(function (item) {
-            // TODO -
-            console.log("ITEM", item);
-            res.status(200);
+        items
+            .postItem({
+            itemName: itemName,
+            price: price,
+            description: description,
+            userId: user.user[0].id,
+            location: location,
+            species: species
+        })
+            .then(function (data) {
+            // Header is sent somewhere before here
+            console.log("DATA IN THEN", data);
+            res.sendStatus(200);
         });
     }
     catch (error) {
@@ -74,7 +77,7 @@ exports.getItems = function (req, res) { return __awaiter(_this, void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, knexfile_1.db.select().from('item_for_sale')];
+                return [4 /*yield*/, knexfile_1.db.select().from("item_for_sale")];
             case 1:
                 items_1 = _a.sent();
                 console.log(items_1);

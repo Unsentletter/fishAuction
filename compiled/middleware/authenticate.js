@@ -47,22 +47,18 @@ exports.authenticate = function (req, res, next) { return __awaiter(_this, void 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                token = req.headers['token'];
-                console.log("Auth middleware", token);
+                token = req.headers["token"];
                 if (!token) {
                     console.log("No token");
-                    return [2 /*return*/, res
-                            .status(400)
-                            .send({ 'message': 'Token is not provided' })];
+                    return [2 /*return*/, res.status(400).send({ message: "Token is not provided" })];
                 }
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 4, , 5]);
-                return [4 /*yield*/, jsonwebtoken_1.default.verify(token, 'abc123')];
+                return [4 /*yield*/, jsonwebtoken_1.default.verify(token, "abc123")];
             case 2:
                 decoded = _a.sent();
-                console.log(1111111111, decoded.id);
-                return [4 /*yield*/, knexfile_1.db('user').where({ id: decoded.id })];
+                return [4 /*yield*/, knexfile_1.db("user").where({ id: decoded.id.id })];
             case 3:
                 user = _a.sent();
                 req.body.user = { user: user };
@@ -71,9 +67,7 @@ exports.authenticate = function (req, res, next) { return __awaiter(_this, void 
             case 4:
                 error_1 = _a.sent();
                 return [2 /*return*/, res.status(400).send(error_1)];
-            case 5:
-                next();
-                return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

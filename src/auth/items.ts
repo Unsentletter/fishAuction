@@ -1,17 +1,30 @@
-import { db } from '../knexfile';
+import { db } from "../knexfile";
 
-export const postItem = ({ itemName, price, description, userId }: {itemName: string, price: string, description: string, userId: string}): any => {
-    console.log("POST ITEM NAME", itemName, price, description, userId);
-
-  return db('item_for_sale').insert({
+export const postItem = ({
+  itemName,
+  price,
+  description,
+  userId,
+  location,
+  species
+}: {
+  itemName: string;
+  price: string;
+  description: string;
+  userId: string;
+  location: string;
+  species: string;
+}): any => {
+  return db("item_for_sale").insert({
     name: itemName,
-    price: price,
-    // description: description,
-    user_id: userId
-  })
+    price,
+    description,
+    user_id: userId,
+    location,
+    species
+  });
 
   // TODO -add description, expiry,
 };
 
-export const removeItem = (() => {});
-
+export const removeItem = () => {};
