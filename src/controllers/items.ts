@@ -31,7 +31,6 @@ export const postItem = (req: Request, res: Response) => {
 export const getItems = async (req: Request, res: Response) => {
   try {
     const items: any = await db.select().from("item_for_sale");
-    console.log(items);
     res.send(items);
   } catch (error) {
     return res.status(400).send(error);

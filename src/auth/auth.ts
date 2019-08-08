@@ -33,7 +33,6 @@ export const login = ({
   email: string;
   password: string;
 }) => {
-  console.log(`Authenticating user ${email}`);
   return (
     db("user")
       .where({ email })
@@ -45,12 +44,10 @@ export const login = ({
         const hashObject = saltHashPassword(password, data[0].salt);
 
         if (hashObject.hash !== data[0].encrypted_password) {
-          console.log("HIT");
           return;
         }
         data[0].token = generateAuthToken(data[0]);
 
-        console.log("DATA", data);
         return data[0];
       })
   );
@@ -69,7 +66,6 @@ export const generateAuthToken = (user: string) => {
 
 // TODO - replace any
 const saltHashPassword = (password: string, salt?: string) => {
-  console.log(password, salt);
   salt = salt ? salt : randomString();
   const hash = crypto.createHmac("sha512", salt).update(password);
   const hashDigest = hash.digest("hex");
